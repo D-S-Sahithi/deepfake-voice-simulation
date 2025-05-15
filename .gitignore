@@ -172,3 +172,8 @@ depot/*
 coqui_recipes/*
 local_scripts/*
 coqui_demos/*
+
+
+# Ignore dataset folder
+recipes/dfs/myttsdataset/*
+recipes/dfs/our_xtts_v2/run/*
