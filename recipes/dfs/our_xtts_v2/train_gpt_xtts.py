@@ -15,21 +15,21 @@ DASHBOARD_LOGGER = "tensorboard"
 LOGGER_URI = None
 
 # Set here the path that the checkpoints will be saved. Default: ./run/training/
-OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "run", "training")
+OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(_file_)), "run", "training")
 
 # Training Parameters
 OPTIMIZER_WD_ONLY_ON_WEIGHTS = True  # for multi-gpu training please make it False
 START_WITH_EVAL = True  # if True it will star with evaluation
-BATCH_SIZE = 2  # set here the batch size
-GRAD_ACUMM_STEPS = 2 # set here the grad accumulation steps
+BATCH_SIZE = 6  # set here the batch size
+GRAD_ACUMM_STEPS = 42 # set here the grad accumulation steps
 # Note: we recommend that BATCH_SIZE * GRAD_ACUMM_STEPS need to be at least 252 for more efficient training. You can increase/decrease BATCH_SIZE but then set GRAD_ACUMM_STEPS accordingly.
 
 # Define here the dataset that you want to use for the fine-tuning on.
 config_dataset = BaseDatasetConfig(
     formatter="ljspeech",
     dataset_name="dfs",
-    path="/home/sahithi/Deepfake_simulation/coqui-ai-TTS/recipes/dfs/myttsdataset",
-    meta_file_train="/home/sahithi/Deepfake_simulation/coqui-ai-TTS/recipes/dfs/myttsdataset/metadata.txt",
+    path="C:\\Users\\Srikanth\\Desktop\\deepfake_simulation\\deepfake-voice-simulation\\recipes\\dfs\\myttsdataset",
+    meta_file_train="C:\\Users\\Srikanth\\Desktop\\deepfake_simulation\\deepfake-voice-simulation\\recipes\\dfs\\myttsdataset\\metadata.txt",
     language="en",
 )
 
@@ -54,7 +54,6 @@ if not os.path.isfile(DVAE_CHECKPOINT) or not os.path.isfile(MEL_NORM_FILE):
     print(" > Downloading DVAE files!")
     ModelManager._download_model_files([MEL_NORM_LINK, DVAE_CHECKPOINT_LINK], CHECKPOINTS_OUT_PATH, progress_bar=True)
 
-
 # Download XTTS v2.0 checkpoint if needed
 TOKENIZER_FILE_LINK = "https://huggingface.co/coqui/XTTS-v2/resolve/main/vocab.json"
 XTTS_CHECKPOINT_LINK = "https://huggingface.co/coqui/XTTS-v2/resolve/main/model.pth"
@@ -73,7 +72,7 @@ if not os.path.isfile(TOKENIZER_FILE) or not os.path.isfile(XTTS_CHECKPOINT):
 
 # Training sentences generations
 SPEAKER_REFERENCE = [
-    "/home/sahithi/Deepfake_simulation/coqui-ai-TTS/recipes/dfs/myttsdataset/wavs/audio11.wav"  # speaker reference to be used in training test sentences
+    "C:\\Users\\Srikanth\\Desktop\\deepfake_simulation\\deepfake-voice-simulation\\recipes\\dfs\\myttsdataset\\wavs\\audio1.wav"  # speaker reference to be used in training test sentences
 ]
 LANGUAGE = config_dataset.language
 
@@ -82,10 +81,10 @@ def main():
     # init args and config
     model_args = GPTArgs(
         max_conditioning_length= 132300,  # 6 secs - samplerate * no of secs
-        min_conditioning_length=66150,  # 3 secs
+        min_conditioning_length= 55125,  # 3 secs
         debug_loading_failures=False,
-        max_wav_length= 661500,  # 22050(sample rate) * 30 sec
-        max_text_length=350,
+        max_wav_length= 374850,  # 22050(sample rate) * 15 sec
+        max_text_length=250,
         mel_norm_file=MEL_NORM_FILE,
         dvae_checkpoint=DVAE_CHECKPOINT,
         xtts_checkpoint=XTTS_CHECKPOINT,  # checkpoint path of the model that you want to fine-tune
@@ -111,14 +110,14 @@ def main():
         logger_uri=LOGGER_URI,
         audio=audio_config,
         batch_size=BATCH_SIZE,
-        batch_group_size= 12,
+        batch_group_size= 8,
         eval_batch_size=BATCH_SIZE,
-        num_loader_workers = 6,
-        eval_split_max_size=32,
+        num_loader_workers = 8,
+        eval_split_max_size= 48,
         print_step=10,
         plot_step=50,
-        log_model_step=500,
-        save_step=300,
+        log_model_step=250,
+        save_step=200,
         save_n_checkpoints=1,
         save_checkpoints=True,
         # target_loss="loss",
@@ -126,11 +125,11 @@ def main():
         # Optimizer values like tortoise, pytorch implementation with modifications to not apply WD to non-weight parameters.
         optimizer="AdamW",
         optimizer_wd_only_on_weights=OPTIMIZER_WD_ONLY_ON_WEIGHTS,
-        optimizer_params={"betas": [0.9, 0.96], "eps": 1e-8, "weight_decay": 1e-2},
+        optimizer_params={"betas": [0.9, 0.96], "eps": 1e-8, "weight_decay": 1e-3},
         lr=5e-06,  # learning rate
         lr_scheduler="MultiStepLR",
         # it was adjusted accordly for the new step scheme
-        lr_scheduler_params={"milestones": [ 100, 250 , 400 ], "gamma": 0.5, "last_epoch": -1},
+        lr_scheduler_params={"milestones": [ 100, 250 , 400 , 600 ], "gamma": 0.5, "last_epoch": -1},
         test_sentences=[
             {
                 "text": " Hey, this is Jordan. I am trying to get in touch with you about something urgent related to a legal claim.",
@@ -178,5 +177,5 @@ def main():
     trainer.fit()
 
 
-if __name__ == "__main__":
+if _name_ == "_main_":
     main()
