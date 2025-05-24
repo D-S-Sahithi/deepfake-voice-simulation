@@ -177,3 +177,5 @@ coqui_demos/*
 # Ignore dataset folder
 recipes/dfs/myttsdataset/*
 recipes/dfs/our_xtts_v2/run/*
+recipes/dfs/glow_tts/glow_tts/phoneme_cache/*
+recipes/dfs/glow_tts/glow_tts/run-May-23-2025_10+03PM-24ec7590/*

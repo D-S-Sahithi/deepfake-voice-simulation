@@ -15,7 +15,7 @@ DASHBOARD_LOGGER = "tensorboard"
 LOGGER_URI = None
 
 # Set here the path that the checkpoints will be saved. Default: ./run/training/
-OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(_file_)), "run", "training")
+OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "run", "training")
 
 # Training Parameters
 OPTIMIZER_WD_ONLY_ON_WEIGHTS = True  # for multi-gpu training please make it False
@@ -28,8 +28,8 @@ GRAD_ACUMM_STEPS = 42 # set here the grad accumulation steps
 config_dataset = BaseDatasetConfig(
     formatter="ljspeech",
     dataset_name="dfs",
-    path="C:\\Users\\Srikanth\\Desktop\\deepfake_simulation\\deepfake-voice-simulation\\recipes\\dfs\\myttsdataset",
-    meta_file_train="C:\\Users\\Srikanth\\Desktop\\deepfake_simulation\\deepfake-voice-simulation\\recipes\\dfs\\myttsdataset\\metadata.txt",
+    path="C:\\Users\\sesha\\Desktop\\task_jammu\\deepfake-voice-simulation\\recipes\\dfs\\myttsdataset",
+    meta_file_train="C:\\Users\\sesha\\Desktop\\task_jammu\\deepfake-voice-simulation\\recipes\\dfs\\myttsdataset\\metadata.txt",
     language="en",
 )
 
@@ -72,7 +72,7 @@ if not os.path.isfile(TOKENIZER_FILE) or not os.path.isfile(XTTS_CHECKPOINT):
 
 # Training sentences generations
 SPEAKER_REFERENCE = [
-    "C:\\Users\\Srikanth\\Desktop\\deepfake_simulation\\deepfake-voice-simulation\\recipes\\dfs\\myttsdataset\\wavs\\audio1.wav"  # speaker reference to be used in training test sentences
+    "C:\\Users\\sesha\\task_jammu\\deepfake-voice-simulation\\recipes\\dfs\\myttsdataset\\wavs\\audio4.wav"  # speaker reference to be used in training test sentences
 ]
 LANGUAGE = config_dataset.language
 
@@ -177,5 +177,5 @@ def main():
     trainer.fit()
 
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
