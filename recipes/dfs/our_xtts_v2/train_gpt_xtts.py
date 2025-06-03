@@ -72,7 +72,7 @@ if not os.path.isfile(TOKENIZER_FILE) or not os.path.isfile(XTTS_CHECKPOINT):
 
 # Training sentences generations
 SPEAKER_REFERENCE = [
-    "C:\\Users\\sesha\\task_jammu\\deepfake-voice-simulation\\recipes\\dfs\\myttsdataset\\wavs\\audio4.wav"  # speaker reference to be used in training test sentences
+    "H:\\My Drive\\Deepfake Voice Generation for Digital Harassment Scam Simulation\\update\\output_audios\\reference_audio.wav"  # speaker reference to be used in training test sentences
 ]
 LANGUAGE = config_dataset.language
 
@@ -112,7 +112,7 @@ def main():
         batch_size=BATCH_SIZE,
         batch_group_size= 8,
         eval_batch_size=BATCH_SIZE,
-        num_loader_workers = 8,
+        num_loader_workers = 1,
         eval_split_max_size= 48,
         print_step=10,
         plot_step=50,
